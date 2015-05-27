@@ -64,7 +64,7 @@ Param()
 Write-Verbose "Starting $($myinvocation.mycommand)"
 #create vbox app
 Write-Verbose "Creating the VirtualBox COM object"
-$vbox=New-Object -ComObject "VirtualBox.VirtualBox"
+$vbox = New-Object -ComObject "VirtualBox.VirtualBox"
 
 $vbox
 Write-Verbose "Ending $($myinvocation.mycommand)"
@@ -159,7 +159,7 @@ Param(
    "Paused","Stuck","Snapshotting","Starting","Stopping",
    "Restoring","TeleportingPausedVM","TeleportingIn","FaultTolerantSync",
    "DeletingSnapshotOnline","DeletingSnapshot","SettingUp")]
-[string]$State="Running",
+[string]$State = "Running",
 [switch]$IncludeRaw
 )
 
@@ -173,7 +173,8 @@ if (-Not $global:vbox) {
 if ($Name) {
  #get virtual machines by name
  Write-Verbose "Getting virtual machines by name"
- $vmachines=@()
+ #initialize an array to hold virtual machines
+ $vmachines = @()
  foreach ($item in $Name) {
    Write-Verbose "Finding $item"
    $vMachines+= $vbox.FindMachine($item)
@@ -182,30 +183,30 @@ if ($Name) {
 elseif ($All) {
  #get all machines
   Write-Verbose "Getting all virtual machines"
-  $vmachines=$vbox.Machines 
+  $vmachines = $vbox.Machines 
 }
 Else {
   Write-Verbose "Getting virtual machines with a state of $State"
   
   #convert State to numeric value
  Switch ($state) {
-   "Stopped" {$istate= 1} 
-   "Saved" {$istate= 2}
-   "Teleported" {$istate= 3}
-   "Aborted" {$istate= 4}
-   "Running" {$istate= 5}
-   "Paused" {$istate= 6}
-   "Stuck" {$istate= 7}
-   "Snapshotting" {$istate= 8}
-   "Starting" {$istate= 9}
-   "Stopping" {$istate= 10}
-   "Restoring" {$istate= 11}
-   "TeleportingPausedVM" {$istate= 12}
-   "TeleportingIn" {$istate=13}
-   "FaultTolerantSync" {$istate=14}
-   "DeletingSnapshotOnline" {$istate=15}
-   "DeletingSnapshot" {$istate=16}
-   "SettingUp" {$istate=17}
+   "Stopped"                {$istate =  1} 
+   "Saved"                  {$istate =  2}
+   "Teleported"             {$istate =  3}
+   "Aborted"                {$istate =  4}
+   "Running"                {$istate =  5}
+   "Paused"                 {$istate =  6}
+   "Stuck"                  {$istate =  7}
+   "Snapshotting"           {$istate =  8}
+   "Starting"               {$istate =  9}
+   "Stopping"               {$istate = 10}
+   "Restoring"              {$istate = 11}
+   "TeleportingPausedVM"    {$istate = 12}
+   "TeleportingIn"          {$istate = 13}
+   "FaultTolerantSync"      {$istate = 14}
+   "DeletingSnapshotOnline" {$istate = 15}
+   "DeletingSnapshot"       {$istate = 16}
+   "SettingUp"              {$istate = 17}
    
   }
   
@@ -219,34 +220,34 @@ foreach ($vmachine in $vmachines) {
   
   #Decode state
   Switch ($vmachine.State) {
-   1 {$vstate="Stopped"}
-   2 {$vstate="Saved"}
-   3 {$vstate="Teleported"}
-   4 {$vstate="Aborted"}
-   5 {$vstate="Running"}
-   6 {$vstate="Paused"}
-   7 {$vstate="Stuck"}
-   8 {$vstate="Snapshotting"}
-   9 {$vstate="Starting"}
-   10 {$vstate="Stopping"}
-   11 {$vstate="Restoring"}
-   12 {$vstate="TeleportingPausedVM"}
-   13 {$vstate="TeleportingIn"}
-   14 {$vstate="FaultTolerantSync"}
-   15 {$vstate="DeletingSnapshotOnline"}
-   16 {$vstate="DeletingSnapshot"}
-   17 {$vstate="SettingUp"}
+   1 {$vstate = "Stopped"}
+   2 {$vstate = "Saved"}
+   3 {$vstate = "Teleported"}
+   4 {$vstate = "Aborted"}
+   5 {$vstate = "Running"}
+   6 {$vstate = "Paused"}
+   7 {$vstate = "Stuck"}
+   8 {$vstate = "Snapshotting"}
+   9 {$vstate = "Starting"}
+   10 {$vstate = "Stopping"}
+   11 {$vstate = "Restoring"}
+   12 {$vstate = "TeleportingPausedVM"}
+   13 {$vstate = "TeleportingIn"}
+   14 {$vstate = "FaultTolerantSync"}
+   15 {$vstate = "DeletingSnapshotOnline"}
+   16 {$vstate = "DeletingSnapshot"}
+   17 {$vstate = "SettingUp"}
    
-   Default {$vstate=$vmachine.State}
+   Default {$vstate = $vmachine.State}
   }
 
-  $obj=New-Object -TypeName PSObject -Property @{
-     Name=$vmachine.name
-     State=$vstate
-     Description=$vmachine.description
-     ID=$vmachine.ID
-     OS=$vmachine.OSTypeID
-     MemoryMB=$vmachine.MemorySize
+  $obj = New-Object -TypeName PSObject -Property @{
+     Name = $vmachine.name
+     State = $vstate
+     Description = $vmachine.description
+     ID = $vmachine.ID
+     OS = $vmachine.OSTypeID
+     MemoryMB = $vmachine.MemorySize
   }
   if ($IncludeRaw) {
     #add raw COM object as a property
@@ -306,7 +307,7 @@ Begin {
     Write-Verbose "Ending $($myinvocation.mycommand)"
     #get global vbox variable or create it if it doesn't exist create it
     if (-Not $global:vbox) {
-        $global:vbox=Get-VirtualBox
+        $global:vbox = Get-VirtualBox
     }
 } #Begin
 
@@ -314,14 +315,14 @@ Process {
  foreach ($item in $ID) {
  
  #get the virtual machine
- $vmachine=$vbox.FindMachine($item)
+ $vmachine = $vbox.FindMachine($item)
  
  if ($vmachine) {
      Write-Host "Suspending $($vmachine.name)" -ForegroundColor Cyan
      if ($pscmdlet.ShouldProcess($vmachine.name)) {
          #create Vbox session object
          Write-Verbose "Creating a session object"
-         $vsession=New-Object -ComObject "VirtualBox.Session"
+         $vsession = New-Object -ComObject "VirtualBox.Session"
          #launch the VMProcess to lock in write mode
          Write-verbose "Locking the machine"
          $vmachine.LockMachine($vsession,1)
@@ -386,7 +387,7 @@ Begin {
     Write-Verbose "Starting $($myinvocation.mycommand)"
    #get global vbox variable or create it if it doesn't exist create it
     if (-Not $global:vbox) {
-        $global:vbox=Get-VirtualBox
+        $global:vbox = Get-VirtualBox
     }
 }#Begin
 
@@ -399,7 +400,7 @@ Process {
      if ($vmachine) {
          #create Vbox session object
          Write-Verbose "Creating a session object"
-         $vsession=New-Object -ComObject "VirtualBox.Session"
+         $vsession = New-Object -ComObject "VirtualBox.Session"
         if ($vmachine.State -lt 5) {
           if ($Headless) {
             Write-Verbose "Starting in headless mode"
@@ -469,7 +470,7 @@ Begin {
     Write-Verbose "Starting $($myinvocation.mycommand)"
    #get global vbox variable or create it if it doesn't exist create it
     if (-Not $global:vbox) {
-        $global:vbox=Get-VirtualBox
+        $global:vbox = Get-VirtualBox
     }
 } #Begin
 
@@ -483,7 +484,7 @@ Process {
       if ($pscmdlet.ShouldProcess($vmachine.name)) {
          #create Vbox session object
          Write-Verbose "Creating a session object"
-         $vsession=New-Object -ComObject "VirtualBox.Session"
+         $vsession = New-Object -ComObject "VirtualBox.Session"
         if ($vmachine.State -eq 5) {
             Write-verbose "Locking the machine"
             $vmachine.LockMachine($vsession,1)
@@ -540,7 +541,7 @@ Param()
 
 Write-Verbose "Starting $($myinvocation.mycommand)"
 Try {
-  $processes=Get-Process -ErrorAction "Stop" | Where {$_.path -match "oracle\\virt"}
+  $processes = Get-Process -ErrorAction "Stop" | Where {$_.path -match "oracle\\virt"}
   Write-Verbose "Found $($processes | measure-object).Count processes)"
   $processes
 }
