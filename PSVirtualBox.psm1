@@ -9,28 +9,14 @@ Create a new HDD
 
 #>
 
-# -----------------------------------------------------------------------------
-# Script: PSVirtualBox.psm1
-# Version: 0.9
-# Author: Jeffery Hicks
-#    http://jdhitsolutions.com/blog
-#    http://twitter.com/JeffHicks
-#    http://www.ScriptingGeek.com
-# Date: 6/13/2011
-# Keywords: COM, VirtualBox
-# Comments: A module for managing VirtualBox virtual machines
-#
-# "Those who forget to script are doomed to repeat their work."
-# Learn more about PowerShell:
-# http://jdhitsolutions.com/blog/essential-powershell-resources/
-#
-#  ****************************************************************
-#  * DO NOT USE IN A PRODUCTION ENVIRONMENT UNTIL YOU HAVE TESTED *
-#  * THOROUGHLY IN A LAB ENVIRONMENT. USE AT YOUR OWN RISK.  IF   *
-#  * YOU DO NOT UNDERSTAND WHAT THIS SCRIPT DOES OR HOW IT WORKS, *
-#  * DO NOT USE IT OUTSIDE OF A SECURE, TEST SETTING.             *
-#  ****************************************************************
-# -----------------------------------------------------------------------------
+<#
+  ****************************************************************
+  * DO NOT USE IN A PRODUCTION ENVIRONMENT UNTIL YOU HAVE TESTED *
+  * THOROUGHLY IN A LAB ENVIRONMENT. USE AT YOUR OWN RISK.  IF   *
+  * YOU DO NOT UNDERSTAND WHAT THIS SCRIPT DOES OR HOW IT WORKS, *
+  * DO NOT USE IT OUTSIDE OF A SECURE, TEST SETTING.             *
+  ****************************************************************
+#>
 
 Function Get-VirtualBox {
 

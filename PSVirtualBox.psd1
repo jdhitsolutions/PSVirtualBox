@@ -6,7 +6,7 @@
 ModuleToProcess = 'PSVirtualBox.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.9'
+ModuleVersion = '1.0.0.0'
 
 # ID used to uniquely identify this module
 GUID = '7fb0a080-331e-4633-8c27-d1fe95c3eacd'
@@ -18,7 +18,7 @@ Author = 'Jeffery Hicks'
 CompanyName = 'JDH Information Technology Solutions'
 
 # Copyright statement for this module
-Copyright = '2011-2015 All Rights Reserviced'
+Copyright = '2011-2015 JDH Information Technology Solutions, Inc.'
 
 # Description of the functionality provided by this module
 Description = 'A PowerShell module for managing VirtualBox virtual machines'
