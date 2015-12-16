@@ -30,7 +30,7 @@ PS C:\> $vbox=Get-VirtualBox
 Create a variable $vbox to referece the VirtualBox service
 .NOTES
 NAME        :  Get-VirtualBox
-VERSION     :  0.9   
+VERSION     :  0.9
 LAST UPDATED:  6/10/2011
 AUTHOR      :  Jeffery Hicks
 .LINK
@@ -121,7 +121,7 @@ OS          : Ubuntu_64
 Get suspended virtual machines
 .NOTES
 NAME        :  Get-VBoxMachine
-VERSION     :  0.9   
+VERSION     :  0.9
 LAST UPDATED:  6/13/2011
 AUTHOR      :  Jeffery Hicks
 .LINK
@@ -169,14 +169,14 @@ if ($Name) {
 elseif ($All) {
  #get all machines
   Write-Verbose "Getting all virtual machines"
-  $vmachines = $vbox.Machines 
+  $vmachines = $vbox.Machines
 }
 Else {
   Write-Verbose "Getting virtual machines with a state of $State"
-  
+
   #convert State to numeric value
  Switch ($state) {
-   "Stopped"                {$istate =  1} 
+   "Stopped"                {$istate =  1}
    "Saved"                  {$istate =  2}
    "Teleported"             {$istate =  3}
    "Aborted"                {$istate =  4}
@@ -193,9 +193,9 @@ Else {
    "DeletingSnapshotOnline" {$istate = 15}
    "DeletingSnapshot"       {$istate = 16}
    "SettingUp"              {$istate = 17}
-   
+
   }
-  
+
   $vmachines=$vbox.Machines | where {$_.State -eq $iState}
 }
 
@@ -203,7 +203,7 @@ Write-Verbose "Found $(($vmachines | measure-object).count) virtual machines"
 if ($vmachines) {
 #write a virtual machine object to the pipeline
 foreach ($vmachine in $vmachines) {
-  
+
   #Decode state
   Switch ($vmachine.State) {
    1 {$vstate = "Stopped"}
@@ -223,7 +223,7 @@ foreach ($vmachine in $vmachines) {
    15 {$vstate = "DeletingSnapshotOnline"}
    16 {$vstate = "DeletingSnapshot"}
    17 {$vstate = "SettingUp"}
-   
+
    Default {$vstate = $vmachine.State}
   }
 
@@ -268,11 +268,11 @@ PS C:\> Get-VBoxMachine | Suspend-VBoxMachine
 Suspend all running virtual machines
 .NOTES
 NAME        :  Suspend-VBoxMachine
-VERSION     :  0.9   
+VERSION     :  0.9
 LAST UPDATED:  6/13/2011
 AUTHOR      :  Jeffery Hicks
 .LINK
-Get-VBoxMachine 
+Get-VBoxMachine
 Stop-VBoxMachine
 Start-VBoxMachine
 .INPUTS
@@ -299,10 +299,10 @@ Begin {
 
 Process {
  foreach ($item in $ID) {
- 
+
  #get the virtual machine
  $vmachine = $vbox.FindMachine($item)
- 
+
  if ($vmachine) {
      Write-Host "Suspending $($vmachine.name)" -ForegroundColor Cyan
      if ($pscmdlet.ShouldProcess($vmachine.name)) {
@@ -314,7 +314,7 @@ Process {
          $vmachine.LockMachine($vsession,1)
          #run the SaveState() method
          Write-Verbose "Saving State"
-         $vsession.Console.SaveState()
+         $vsession.Machine.SaveState()
      } #should process
     }
     else {
@@ -348,12 +348,12 @@ PS C:\> Start-VBoxMachine CoreDC01 -headless
 Start virtual machine CoreDC01 headless.
 .NOTES
 NAME        :  Start-VBoxMachine
-VERSION     :  0.9   
+VERSION     :  0.9
 LAST UPDATED:  6/13/2011
 AUTHOR      :  SERENITY\Jeff
 .LINK
-Get-VBoxMachine 
-Stop-VBoxMachine 
+Get-VBoxMachine
+Stop-VBoxMachine
 .INPUTS
 Strings
 .OUTPUTS
@@ -379,10 +379,10 @@ Begin {
 
 Process {
     foreach ($item in $name) {
-     
+
       #get the virtual machine
       $vmachine=$vbox.FindMachine($item)
- 
+
      if ($vmachine) {
          #create Vbox session object
          Write-Verbose "Creating a session object"
@@ -399,9 +399,9 @@ Process {
         else {
           Write-Host "I can only start machines that have been stopped." -ForegroundColor Magenta
         }
-         
-    } #if vmachine 
-     
+
+    } #if vmachine
+
      } #foreach
 } #process
 
@@ -417,7 +417,7 @@ Function Stop-VBoxMachine {
 .SYNOPSIS
 Stop a virtual machine
 .DESCRIPTION
-Stop one or more virtual box machines by sending the ACPI shutdown signal. 
+Stop one or more virtual box machines by sending the ACPI shutdown signal.
 .PARAMETER Name
 The name of a virtual machine. IMPORTANT: Names are case sensitive.
 .PARAMETER Headless
@@ -426,16 +426,16 @@ Run the virtual machine in a headless process.
 PS C:\> Stop-VBoxMachine "Win7"
 Stops the virtual machine called Win7
 .EXAMPLE
-PS C:\> Get-VBoxMachine | Stop-VBoxMachine 
+PS C:\> Get-VBoxMachine | Stop-VBoxMachine
 Stop all running virtual machines
 .NOTES
 NAME        :  Stop-VBoxMachine
-VERSION     :  0.9   
+VERSION     :  0.9
 LAST UPDATED:  6/13/2011
 AUTHOR      :  SERENITY\Jeff
 .LINK
-Get-VBoxMachine 
-Start-VBoxMachine 
+Get-VBoxMachine
+Start-VBoxMachine
 Suspend-VBoxMachine
 .INPUTS
 Strings
@@ -462,10 +462,10 @@ Begin {
 
 Process {
     foreach ($item in $name) {
-     
+
       #get the virtual machine
       $vmachine=$vbox.FindMachine($item)
- 
+
      if ($vmachine) {
       if ($pscmdlet.ShouldProcess($vmachine.name)) {
          #create Vbox session object
@@ -480,9 +480,9 @@ Process {
         else {
           Write-Host "I can only stop machines that are running." -ForegroundColor Magenta
         }
-      } #should process   
-    } #if vmachine 
-     
+      } #should process
+    } #if vmachine
+
      } #foreach
 } #process
 
@@ -507,15 +507,15 @@ Handles  NPM(K)    PM(K)      WS(K) VM(M)   CPU(s)     Id ProcessName
     754     129   103736      52940   244    76.85  12244 VBoxHeadless
    3444      17    16076      11844   109 1,351.14   8176 VBoxSVC
     193      15    19416      55140   137     1.28  12212 VirtualBox
-    
+
 Get all running VirtualBox related processes
 .NOTES
 NAME        :  Get-VboxProcess
-VERSION     :  0.9   
+VERSION     :  0.9
 LAST UPDATED:  6/13/2011
 AUTHOR      :  Jeffery Hicks
 .LINK
-Get-VirtualBox 
+Get-VirtualBox
 .INPUTS
 None
 .OUTPUTS
