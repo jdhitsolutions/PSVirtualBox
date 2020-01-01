@@ -1,4 +1,11 @@
 # PSVirtualBox
+
+## Archived
+
+This module has been archived and should be considered deprecated. It has not been updated in a number of years and there is no guarantee that any of the code will work with newer versions of VirtualBox. You are welcome to use the code but be warned.
+
+## Original Readme
+
 A PowerShell module to manage a Virtual Box environment. This module was developed for an older version of Virtual Box
 so I am sure it needs some updating.
 
